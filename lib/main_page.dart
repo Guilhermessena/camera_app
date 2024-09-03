@@ -29,7 +29,6 @@ class _MainPageState extends State<MainPage> {
 
     try {
       await file.writeAsBytes(await image.readAsBytes());
-      print("sucesso");
     } catch (_) {}
     return file;
   }
@@ -37,7 +36,7 @@ class _MainPageState extends State<MainPage> {
   void takePicture() async {
     XFile? image;
     if (cameraController.value.isTakingPicture ||
-        cameraController.value.isInitialized) {
+        !cameraController.value.isInitialized) {
       return;
     }
     if (isFlashOn == false) {
@@ -52,11 +51,9 @@ class _MainPageState extends State<MainPage> {
       });
     }
     final file = await saveImage(image);
-
     setState(() {
       imagesList.add(file);
     });
-
     MediaScanner.loadMedia(path: file.path);
   }
 
@@ -74,6 +71,7 @@ class _MainPageState extends State<MainPage> {
     startCamera(0);
     super.initState();
   }
+
   @override
   void dispose() {
     cameraController.dispose();
@@ -134,7 +132,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                          color: Color.fromRGBO(50, 0, 0, 0),
+                          color: Color.fromARGB(50, 0, 0, 0),
                           shape: BoxShape.circle),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -162,7 +160,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                          color: Color.fromRGBO(50, 0, 0, 0),
+                          color: Color.fromARGB(50, 0, 0, 0),
                           shape: BoxShape.circle),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
