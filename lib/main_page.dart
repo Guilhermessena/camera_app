@@ -25,10 +25,11 @@ class _MainPageState extends State<MainPage> {
     final downloadPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
     final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final file = File('$downloadPath$fileName');
+    final file = File('$downloadPath/$fileName');
 
     try {
       await file.writeAsBytes(await image.readAsBytes());
+      print("sucesso");
     } catch (_) {}
     return file;
   }
@@ -72,6 +73,11 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     startCamera(0);
     super.initState();
+  }
+  @override
+  void dispose() {
+    cameraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -139,7 +145,7 @@ class _MainPageState extends State<MainPage> {
                                 size: 30,
                               )
                             : const Icon(
-                                Icons.flash_on,
+                                Icons.flash_off,
                                 color: Colors.white,
                                 size: 30,
                               ),
